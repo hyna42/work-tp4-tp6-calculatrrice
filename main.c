@@ -28,18 +28,19 @@ int main(void)
     switch (choice)
     {
     case 1:
-        /* code */
         result = add(a, b);
         break;
 
     case 2:
-        /* code */
         result = sub(a, b);
         break;
 
     case 3:
-        /* code */
         result = mul(a, b);
+        break;
+
+    case 4:
+        result = diviz(a, b);
         break;
     }
 

@@ -10,5 +10,8 @@ float sub(float a, float b);
 //function prototype for the multiplication function
 float mul(float a, float b);
 
+//function prototype for the division function
+float diviz(float a, float b);
+
 
 #endif
