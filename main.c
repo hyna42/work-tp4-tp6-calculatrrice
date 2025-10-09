@@ -31,6 +31,11 @@ int main(void)
         /* code */
         result = add(a, b);
         break;
+
+    case 2:
+        /* code */
+        result = sub(a, b);
+        break;
     }
 
     printf("Result = %.2f\n", result);
