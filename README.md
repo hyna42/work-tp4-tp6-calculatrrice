@@ -1,31 +1,26 @@
-# TP6 — Lbrairies statiques et dynamqiues
+# TP6 — Lbrairies statiques et dynamqiues : compilation manuelle
 
-<u>_**Définition**</u> : une librairie est un ensemble de fonctions déjà compliquées qu'on peut directement utilisées_
+_<u>**Définition**</u> : une librairie est un ensemble de fonctions déjà compliquées qu'on peut directement utilisées_
 
-## A - LIBRAIRIES STATIQUES
+## A - LIBRAIRIES STATIQUES 
 > _Les Librairies statiques sont intégrées directement dans le programmme exécutbale au moment de la compilation_
 
-Mini calculatrice en C (add, sub, mul, div).
-
-## pré-requit : se positonner sur dans le repertoir /app/ pour avant d'exéctuter les commandes manuelles
-
-Avec une compilation **manuelle** étape par étape
 
 ### 1. compiler la lib (calc.c -> calc.o)
 
-> - Aller dans le répertoir `src/lib/staticCalculatrice`
+> - Aller dans le répertoir /staticCalculatrice :  `cd src/lib/staticCalculatrice`
 > - Lancer la commande : `gcc -std=c2x -pedantic -Wall -Wextra -Werror -c calc.c -o ../../build/calc.o`
 
-### 2. Créer l'archive la lib statique (.a) avec la commande ar
+### 2. Créer l'archive de la lib statique (.a) avec la commande ar
 
 > - Toujours dans répertoir `src/lib/staticCalculatrice`
 > - Lancer la commande : `ar rcs libStaticCal.a ../../build/calc.o`
 
-OU :
+Où :
 
-- `r` : insérer les fichiers
-- `c` : créé l'archive si elle n'existe pas
-- `s` : créé un index équivalent à (randlib)
+- `r` : pour insérer les fichiers
+- `c` : pour créé l'archive si elle n'existe pas
+- `s` : pour créé un index équivalent à (randlib)
 
 ### 3. Compliation de main.c -> main.o
 
@@ -37,7 +32,7 @@ OU :
 > - Toujours Dans `src/app/`
 > - Lancer `gcc ../build/main.o -L../lib/staticCalculatrice -lStaticCal -o ../bin/prog`
 
-OU :
+Où :
 
 - l'option `-L` pour "Library Path" : désigne le nom du dossier où sont définit les librairies, le GCC doit les checher à ce niveau. Ici c'est le chmin `src/lib/staticCalculatrice/`
 
@@ -45,3 +40,6 @@ OU :
 
 ### 5. Lancer le proggramme 
 `../bin/prog`
+
+
+## B - LIBS. DYNAMIQUES
