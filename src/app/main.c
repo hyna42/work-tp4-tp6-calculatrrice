@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../lib/staticCalculatrice/calc.h"
+#include "../lib/calc.h"
 
 int main(void)
 
