@@ -5,6 +5,6 @@ Avec 2 modes de construction  : une compilation **manuelle** étape par étape 
 - 📄 [TP4 - Compilation manuelle](https://github.com/hyna42/work-tp4-tp6-calculatrrice/tree/hand-compil)
 - 📄 [TP4 - Compilation avec Makefile](https://github.com/hyna42/work-tp4-tp6-calculatrrice/tree/make-compil)
 
-# TP4 — Les Librairies : Statiques et Dynamiques
+# TP6 — Les Librairies : Statiques et Dynamiques
 - 📄 [TP6 - Compilation manuelle](https://github.com/hyna42/work-tp4-tp6-calculatrrice/tree/tp6-man-copil)
 - 📄 [TP6 - Compilation avec Makefile](https://github.com/hyna42/work-tp4-tp6-calculatrrice/tree/tp6-make-compil)
