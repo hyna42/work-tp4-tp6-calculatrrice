@@ -8,12 +8,12 @@ _<u>**Définition**</u> : une librairie est un ensemble de fonctions déjà comp
 
 ### 1. compiler la lib (calc.c -> calc.o)
 
-> - Aller dans le répertoir /staticCalculatrice :  `cd src/lib/staticCalculatrice`
+> - Aller dans le répertoir /staticCalculatrice :  `cd /lib/staticCalculatrice`
 > - Lancer la commande : `gcc -std=c2x -pedantic -Wall -Wextra -Werror -c calc.c -o ../../build/calc.o`
 
 ### 2. Créer l'archive de la lib statique (.a) avec la commande ar
 
-> - Toujours dans répertoir `src/lib/staticCalculatrice`
+> - Toujours dans répertoir `lib/staticCalculatrice`
 > - Lancer la commande : `ar rcs libStaticCal.a ../../build/calc.o`
 
 Où :
@@ -22,9 +22,9 @@ Où :
 - `c` : pour créé l'archive si elle n'existe pas
 - `s` : pour créé un index équivalent à (randlib)
 
-### 3. Compliation de main.c -> main.o
+### 3. Compilation de main.c -> main.o
 
-> - Aller dans le rep /app/ : `cd ../../src/app/`
+> - Aller dans le rep /app/ : `cd ../../src/app`
 > - Lancer `gcc -std=c2x -pedantic -Wall -Wextra -Werror -c main.c -o ../build/main.o`
 
 ### 4. Lier main avec la lib statique

@@ -1,6 +1,6 @@
 #include "calc.h"
 
-int saticAddition(int a, int b)
+int staticAddition(int a, int b)
 {
     return (a + b);
 }
@@ -17,5 +17,5 @@ int staticMultiplication(int a, int b)
 
 float staticDivision(int a, int b)
 {
-    return a / b;
+    return (float) a/ b;
 }
