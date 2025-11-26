@@ -1,10 +1,10 @@
 # TP6 — Les Librairies Statiques et Dynamiques : compilation manuelle
 
-_<u>**Définition**</u> : une librairie est un ensemble de fonctions déjà compliquées qu'on peut directement utilisées_
+_<u>**Définition**</u> : une librairie est un ensemble de fonctions déjà compliquées qu'on peut directement utiliser_
 
 ## A - LIBRAIRIES STATIQUES
 
-> ➡️ _Les Librairies statiques sont intégrées directement dans le programmme exécutbale au moment de la compilation_
+> ➡️ _Les Librairies statiques sont **INTEGREES directement dans le programmme** exécutable au moment de la compilation. Lors de la phase de d'édition des liens, le code des fonctions utilisées dans la librairie est copié intégralement dans le fichier exécutable final. Le programme n'aura plus besoin de la librairie une fois compilé_
 
 ### 1.Compilation de main.c -> main.o
 
@@ -24,8 +24,8 @@ _<u>**Définition**</u> : une librairie est un ensemble de fonctions déjà comp
 Où :
 
 - `r` : pour insérer les fichiers
-- `c` : pour créé l'archive si elle n'existe pas
-- `s` : pour créé un index équivalent à (randlib)
+- `c` : pour créér l'archive si elle n'existe pas
+- `s` : pour créér un index équivalent à (randlib)
 
 
 ### 4. Lier main avec la lib statique
@@ -35,16 +35,16 @@ Où :
 
 Où :
 
-- l'option `-L` pour "Library Path" : désigne le nom du dossier où sont définit les librairies, le GCC doit les checher à ce niveau. Ici c'est le chmin `src/lib/staticCalculatrice/`
+- l'option `-L` pour "Library Path" : désigne le nom du dossier où sont définit les librairies, le GCC doit les chercher à ce niveau. Dans notre exemple il s'agit du chemin suivant : `src/lib/staticCalculatrice/`
 
-- L'option `-l` pour "Librairy name" : désigne le nom de la librairie que le GCC doit checher à lier, ici c'est la lib `libStaticCal.a`
+- L'option `-l` pour "Librairy name" : désigne le nom de la librairie que le GCC doit chercher à lier, ici il s'agit de la lib `libStaticCal.a`
 
 ### 5. Lancer le proggramme
 `../bin/prog`
 
 ## B - LIBRAIRIES DYNAMIQUES
 
-> ➡️ _Les Librairies dynamiques (Shared Library) ou Librairies Partagées ne sont pas intégrées au programme, elle sont chargées au moment de l'exécution. Un .so (Linux)/.dll(windows)/.dylib(MacOs) doit être présent dans le système à l'exécution. Les libs dynamiques permettent sont présents dans plusieurs programmes modernes, car elles permettent de màj le code sans recompiler l'exécutable, mais aussi elles permettent de réduire la taille de l'éxecutable_
+> ➡️ _Les Librairies dynamiques (Shared Library) encore appelées "Librairies Partagées" ne sont pas intégrées dans le programme à la compilation (contrairement aux libs statiques), elle sont plutôt **CHARGEES au moment de l'exécution**. Pour cela un fichier ***.so (Linux)/.dll(windows)/.dylib(MacOs)*** doit être présent dans le système à l'exécution. Les libs dynamiques sont présents dans plusieurs programmes modernes (Python,etc), car elles permettent de mettre à jour le code sans recompiler l'exécutable, mais aussi elles permettent de réduire la taille de l'éxecutable_
 
 ### 1. Compilation de main.c -> main.o
 > - Dans /app `cd app/` - lancer  `gcc -std=c2x -pedantic -Wall -Wextra -Werror -c main.c -o ../build/main.o`
