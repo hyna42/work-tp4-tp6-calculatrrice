@@ -13,17 +13,17 @@ _<u>**Définition**</u> : une librairie est un ensemble de fonctions déjà comp
 
 ### 1.Compilation des objets (.o)
 
-> - **main** : dans app/ : `gcc -std=c2x -pedantic -Wall -Wextra -Werror -c main.c -o ../build/main.o`
+> - **<u>main</u>** : dans app/ : `gcc -std=c2x -pedantic -Wall -Wextra -Werror -c main.c -o ../build/main.o`
 
-> - **Lib statique** : dans lib/staticCalculatrice/ : `gcc -std=c2x -pedantic -Wall -Wextra -Werror -c staticCalc.c -o ../../build/staticCalc.o`
+> - **<u>Lib statique</u>** : dans lib/staticCalculatrice/ : `gcc -std=c2x -pedantic -Wall -Wextra -Werror -c staticCalc.c -o ../../build/staticCalc.o`
 
-> - **Lib dynamique** : dans lib/dynamicCalculatrice/ : `gcc -std=c2x -pedantic -Wall -Wextra -Werror -c dynamicCalc.c -o ../../build/dynamicCalc.o`
+> - **<u>Lib dynamique</u>** : dans lib/dynamicCalculatrice/ : `gcc -std=c2x -pedantic -Wall -Wextra -Werror -c dynamicCalc.c -o ../../build/dynamicCalc.o`
 
 ### 2. Construire les librairies
 
-> - **lib statique** lib/: `ar rcs staticCalculatrice/libStaticCal.a ../build/staticCalc.o`
+> - **librairie statique** lib/: `ar rcs staticCalculatrice/libStaticCal.a ../build/staticCalc.o`
 
-> - **lib dynamique** lib/: `gcc -shared -fPIC -o dynamicCalculatrice/libDynamicCal.so ../build/dynamicCalc.o`
+> - **librairie dynamique** lib/: `gcc -shared -fPIC -o dynamicCalculatrice/libDynamicCal.so ../build/dynamicCalc.o`
 
 
 Où :
@@ -34,7 +34,7 @@ Où :
 - `-shared` : produit une bibliothèque partagée (.so) pouvant être liée dynamiquement à un exécutable
 - `-fPIC`: génère du code position-indépendant (PIC), nécessaire pour les bibliothèques partagées afin qu'elles puissent être chargées à n'importe quelle adresse mémoire.
 
-### 4. Lier l'exécutable avec les deux librairies depuis la racine /build
+### 4. Lier l'exécutable (main.o) avec les deux librairies depuis la racine /build
 
 ```bash
 gcc main.o -L../lib/staticCalculatrice -L../lib/dynamicCalculatrice \
@@ -43,7 +43,7 @@ gcc main.o -L../lib/staticCalculatrice -L../lib/dynamicCalculatrice \
   -o ../bin/prog   
 ```
 
-> - TIP : on peut vérifier (à partir du /build si le .so a bien été réoslu) avec la commande `ldd src/bin/prog`
+> - TIP : on peut vérifier (à partir du /build si le .so a bien été réoslu) avec la commande `ldd ../bin/prog`
 
 ![alt text](/src/assets/so-build.png)
 
