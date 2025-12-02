@@ -2,65 +2,65 @@
 
 _<u>**Définition**</u> : une librairie est un ensemble de fonctions déjà compliquées qu'on peut directement utiliser_
 
-## A - LIBRAIRIES STATIQUES
+## A - DEFINITIONS
 
 > ➡️ _Les Librairies statiques (.a) sont **INTEGREES directement dans le programmme** exécutable au moment de la compilation. Lors de la phase de d'édition des liens, le code des fonctions utilisées dans la librairie est copié intégralement dans le fichier exécutable final. Le programme n'aura plus besoin de la librairie une fois compilé_
 
-### 1.Compilation de main.c -> main.o
 
-> - Aller dans le rep /app : `cd app/`
-> - Lancer `gcc -std=c2x -pedantic -Wall -Wextra -Werror -c main.c -o ../build/main.o`
+> ➡️ _Les Librairies dynamiques (.so), Shared Library encore appelées "Librairies Partagées" ne sont pas intégrées dans le programme à la compilation (contrairement aux libs statiques), elle sont plutôt **CHARGEES au moment de l'exécution**. Pour cela un fichier ***.so (Linux)/.dll(windows)/.dylib(MacOs)*** doit être présent dans le système à l'exécution. Les libs dynamiques sont présents dans plusieurs programmes modernes (Python,etc), car elles permettent de mettre à jour le code sans recompiler l'exécutable, mais aussi elles permettent de réduire la taille de l'éxecutable_
 
-### 2. compiler la lib (calc.c -> calc.o)
+## B - APPLICATION
 
-> - Aller dans le répertoir /lib : `cd ../lib/`
-> - Lancer la commande : `gcc -std=c2x -pedantic -Wall -Wextra -Werror -c calc.c -o ../build/calc.o`
+### 1.Compilation des objets (.o)
 
-### 3. Créer l'archive (la lib statique) (.a) avec la commande ar
+> - **main** : dans app/ : `gcc -std=c2x -pedantic -Wall -Wextra -Werror -c main.c -o ../build/main.o`
 
-> - Toujours dans /lib
-> - Lancer la commande : `ar rcs staticCalculatrice/libStaticCal.a ../build/calc.o`
+> - **Lib statique** : dans lib/staticCalculatrice/ : `gcc -std=c2x -pedantic -Wall -Wextra -Werror -c staticCalc.c -o ../../build/staticCalc.o`
+
+> - **Lib dynamique** : dans lib/dynamicCalculatrice/ : `gcc -std=c2x -pedantic -Wall -Wextra -Werror -c dynamicCalc.c -o ../../build/dynamicCalc.o`
+
+### 2. Construire les librairies
+
+> - **lib statique** lib/: `ar rcs staticCalculatrice/libStaticCal.a ../build/staticCalc.o`
+
+> - **lib dynamique** lib/: `gcc -shared -fPIC -o dynamicCalculatrice/libDynamicCal.so ../build/dynamicCalc.o`
+
 
 Où :
 
 - `r` : pour insérer les fichiers
 - `c` : pour créér l'archive si elle n'existe pas
 - `s` : pour créér un index équivalent à (randlib)
+- `-shared` : produit une bibliothèque partagée (.so) pouvant être liée dynamiquement à un exécutable
+- `-fPIC`: génère du code position-indépendant (PIC), nécessaire pour les bibliothèques partagées afin qu'elles puissent être chargées à n'importe quelle adresse mémoire.
 
+### 4. Lier l'exécutable avec les deux librairies depuis la racine /build
 
-### 4. Lier main avec la lib statique
+```bash
+gcc main.o -L../lib/staticCalculatrice -L../lib/dynamicCalculatrice \
+  -Wl,-Bstatic -lStaticCal -Wl,-Bdynamic -lDynamicCal \
+  -Wl,-rpath,'$ORIGIN/../lib/dynamicCalculatrice' \
+  -o ../bin/prog   
+```
 
-> - Toujours dans /lib
-> - Lancer `gcc ../build/main.o -L./staticCalculatrice -lStaticCal -o ../bin/prog`
+> - TIP : on peut vérifier (à partir du /build si le .so a bien été réoslu) avec la commande `ldd src/bin/prog`
 
-Où :
+![alt text](/src/assets/so-build.png)
 
-- l'option `-L` pour "Library Path" : désigne le nom du dossier où sont définit les librairies, le GCC doit les chercher à ce niveau. Dans notre exemple il s'agit du chemin suivant : `src/lib/staticCalculatrice/`
+AVEC :
+- `-L` -L../lib/staticCalculatrice et -L../lib/dynamicCalculatrice indique au linker où chercher les bibliothèques lors de la phase de lien
+- `-Wl,-Bstatic -lStaticCal` , intègrer la lib ***libStaticCal.a*** dans l'exécutable
+    - `-Wl` : passe les options suivantes au linker (pas au compilateur).
+    - `-Bstatic` : force le lien statique pour les bibliothèques suivantes.
+    - `-lStaticCal` : lie la bibliothèque libStaticCal.a (statique) trouvée dans le répertoire indiqué par -L
+- `-Wl,-Bdynamic -lDynamicCal` : permet de charger la lib ***libDynamicCal.so*** au moment de de l'exécution :
+    - `-Bdynamic` : repasse en mode lien dynamique
+    - `-lDynamicCal` : lie la bibliothèque libDynamicCal.so
+- `-Wl,-rpath,'$ORIGIN/../lib/dynamicCalculatrice'` : permet de définir un chemin d’exécution (runtime path) intégré dans l’exécutable afin de pouvoir distribuer l'exécutable avec ses .so sans configurer le système :
+    - `$$ORIGIN` : il s'agit du répertoire où se trouve l’exécutable (../bin/)
+Le programme saura où trouver ***libDynamicCal.so*** au démarrage, **<u>même sans variable LD_LIBRARY_PATH**<u>.
+- -o ../bin/prog   : spécifer le nom de l'exécutable de sortie
 
-- L'option `-l` pour "Librairy name" : désigne le nom de la librairie que le GCC doit chercher à lier, ici il s'agit de la lib `libStaticCal.a`
-
-### 5. Lancer le proggramme
+### 5. Excécuter le proggramme
 `../bin/prog`
 
-## B - LIBRAIRIES DYNAMIQUES
-
-> ➡️ _Les Librairies dynamiques (.so), Shared Library encore appelées "Librairies Partagées" ne sont pas intégrées dans le programme à la compilation (contrairement aux libs statiques), elle sont plutôt **CHARGEES au moment de l'exécution**. Pour cela un fichier ***.so (Linux)/.dll(windows)/.dylib(MacOs)*** doit être présent dans le système à l'exécution. Les libs dynamiques sont présents dans plusieurs programmes modernes (Python,etc), car elles permettent de mettre à jour le code sans recompiler l'exécutable, mais aussi elles permettent de réduire la taille de l'éxecutable_
-
-### 1. Compilation de main.c -> main.o
-> - Dans /app `cd app/` - lancer  `gcc -std=c2x -pedantic -Wall -Wextra -Werror -c main.c -o ../build/main.o`
-
-### 2. Compiler la lib avec l'option `-fPIC` (Position Independant Code) : calc.c -> calc.o
-> - Aller dans /lib : `cd ../lib/`
-> - Lancer : `gcc -std=c2x -pedantic -Wall -Wextra -Werror -fPIC -c calc.c -o ../build/calc.o`
-
-### 3. Créer la librairie dynamique .so : `libDynamicCal.so` (je suis sur la distribution WSL, donc Linux = .so)
-> - Toujours dans /lib : `gcc -shared -o ./dynamicCalculatrice/libDynamicCal.so ../build/calc.o`
-
-
-### 4. Lier le .so dans le main
-> - Toujours dans /lib :  `gcc ../build/main.o -L./dynamicCalculatrice -lDynamicCal -o ../bin/prog`
-
-***NB : ici ne pas oublier de faire `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH` depuis `lib/dynamicCalculatrice/`avant d'exécuter le programme***
-
-### 5. Exécuter le proggramme
-`../bin/prog`

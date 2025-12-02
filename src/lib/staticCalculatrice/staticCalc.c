@@ -1,4 +1,4 @@
-#include "calc.h"
+#include "staticCalc.h"
 
 int staticAddition(int a, int b)
 {

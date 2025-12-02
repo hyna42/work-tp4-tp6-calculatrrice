@@ -1,5 +1,5 @@
-#ifndef CALC_H
-#define CALC_H
+#ifndef STATIC_CALC_H
+#define STATIC_CALC_H
 
 int staticAddition(int a, int b);
 int staticSoustraction(int a, int b);
