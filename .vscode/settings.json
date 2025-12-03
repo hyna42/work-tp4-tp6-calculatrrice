@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "*.ejs": "html",
+    "*.sass": "sass",
+    ".env*": "dotenv",
+    "dynamiccalc.h": "c"
+  }
+}
