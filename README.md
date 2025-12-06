@@ -12,4 +12,7 @@ Avec 2 modes de construction  : une compilation **manuelle** étape par étape 
 - 📄 [TP6 - Compilation manuelle](https://github.com/hyna42/work-tp4-tp6-calculatrrice/tree/tp6-man-compil?tab=readme-ov-file)
 
 # TP7 — CMake
-- 📄 [TP7 - CMAKE](https://github.com/hyna42/work-tp4-tp6-calculatrrice/tree/tp7-cmake?tab=readme-ov-file)
+
+- 📄 [TP7 - CMAKE - Q1 : Hello-World ](https://github.com/hyna42/work-tp4-tp6-calculatrrice/tree/tp7-cmake-hello_world/src)
+
+- 📄 [TP7 - CMAKE - Q2 : Calculatrice ](https://github.com/hyna42/work-tp4-tp6-calculatrrice/tree/tp7-cmake-calculatrice/src)
