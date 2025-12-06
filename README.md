@@ -44,11 +44,11 @@ Dans cette exercie on l'utilisera comme suit :
 
 **error avant utilisation de la compilation conditionnelle**
 
-![alt text](/img/no-conditonal_compil.png)
+![alt text](/src/assets/without-conditonal_compil.png)
 
 **fixe - code run : avec compilaiton conditionnelle**
-![alt text](/img/with-conditonal_compil.png)
+![alt text](/src/assets/with-conditonal_compil.png)
 
 
-## Résultat
-![alt text](/img/result.png)
+## TESTS D'EXECUTION
+![alt text](/src/assets/execution_test.png)
