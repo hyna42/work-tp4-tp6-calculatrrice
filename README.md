@@ -1,4 +1,4 @@
-# TP7 — CMake : compilation du projet (calculatrice)
+# TP7 — Q2 :CMake - Calculatrice
 
 <u>**Définition**</u> : **CMAKE** est un système de construction (Build System) Multiplateforme qui permet de génèrer des fichiers de configuration pour d'autres outils de compilation telsque le `Makefile` afin de compiler le projet partout avec n'importe quel outil, sans toucher au code.
 
