@@ -8,46 +8,11 @@ _<u>**Définition**</u> : une librairie est un ensemble de fonctions déjà comp
 
 ### 1.Compilation
 
-`make static` # Compile la version statique <br>
-`make dynamic` # Compile la version dynamique
-
-### 2. Exécution
-
-`make run-static` # Exécute le programme statique <br>
-`make run-dynamic` # Exécute le programme dynamique
+`make ` # Compile tout le programme avec les libs staique et partagées <br>
+`make run` # lance le programme
 
 ### 3. Néttoyage
-`make clean`         # Supprime tous les fichiers générés
-
-## REMARQUE ! : Recours à la Compiltion conditionnelle
-Dans cette exercie au début, en voulant compiler le main j'ai du me confronter à une erreur (voir image ci-dessous) car mon main incluait au départ la directive dynamique et statique, et exigait la compliation de chacun des 2 directive dans sa phase de pré-processing  : je ne pouvais donc lancer ni la lib statique ni la lib dynamique (séparemment) ayant exigent le run de l'autre, meme si la compilation de base produisait les outpout nécessaire.
-
-Pour résoudre le problème, avoir avoir cherché l'origin de mon erreur, j'ai compris qui'l fallait passer par directives conditionnelle du préprocessuer , c'est à dire qu'au moment du préprocessing on incluerait uniquement l'entête de la librairie qu'on veut lancer (soit statique ou dynamique) 
-
-La mise en place de cette solution passe donc par des structures telle que  :
-* `#ifdef / #ifndef / #endif`
-* `#if / #elif / #else`
-
-Dans cette exercie on l'utilisera comme suit :
-
-```C
-// pour inclure la directive statique uniquement si on est dans l'appel a la lib statique
-#if USE_STATIC
-#include "../lib/staticCalculatrice/staticCalc.h" 
-#endif
-
-// pour inclure la directive dynamique uniquement si on est dans l'appel a la lib dynamque
-#if USE_DYNAMIC
-#include "../lib/dynamicCalculatrice/dynamicCalc.h"
-#endif
-```
-
-**error avant utilisation de la compilation conditionnelle**
-
-![alt text](/src/assets/without-conditonal_compil.png)
-
-**fixe - code run : avec compilaiton conditionnelle**
-![alt text](/src/assets/with-conditonal_compil.png)
+`make clean`         # Supprime tous les fichiers générés dans src/build et dans src/bin 
 
 
 ## TESTS D'EXECUTION

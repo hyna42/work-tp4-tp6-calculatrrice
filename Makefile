@@ -1,76 +1,60 @@
-############################################
-# OPTIONS GENERALES
-############################################
+# --- Options ---
+CC      = gcc
+CFLAGS  = -std=c2x -pedantic -Wall -Wextra -Werror
+LDFLAGS = 
+# rpath: pour exécuter sans exporter LD_LIBRARY_PATH
+RPATH   = -Wl,-rpath,'$$ORIGIN/../lib/dynamicCalculatrice'
 
-CC = gcc
-CFLAGS = -std=c2x -pedantic -Wall -Wextra -Werror
-
-# Dossiers
+# --- Dossiers ---
 BUILD   = src/build
 BIN     = src/bin
 STATIC  = src/lib/staticCalculatrice
 DYNAMIC = src/lib/dynamicCalculatrice
 
-# Fichiers sources
-MAIN = src/app/main.c
-FDYNAMIC = src/lib/dynamicCalculatrice/dynamicCalc.c
-FSTATIC = src/lib/staticCalculatrice/staticCalc.c
+# --- Sources ---
+MAIN    = src/app/main.c
+FSTATIC = $(STATIC)/staticCalc.c
+FDYN    = $(DYNAMIC)/dynamicCalc.c
 
-# Création des dossiers si inexistants
-$(shell mkdir -p $(BUILD) $(BIN))
+# --- Dossiers de sortie  ---
+$(shell mkdir -p $(BUILD) $(BIN) $(STATIC) $(DYNAMIC))
 
-############################################
-#             A - COMPILATION LIB STATIQUE
-############################################
+# --- Cible par défaut : src/bin/calc
+all: $(BIN)/calc
 
-# ajouter le flag pour activer le code statique
-static: CFLAGS += -DUSE_STATIC
-static: $(BIN)/prog_static
+# --- Objets ---
+$(BUILD)/main.o: $(MAIN)
+	@$(CC) $(CFLAGS) -I$(STATIC) -I$(DYNAMIC) -c $< -o $@
 
-$(BUILD)/main_static.o: $(MAIN)
-	@$(CC) $(CFLAGS) -c $(MAIN) -o $(BUILD)/main_static.o
+$(BUILD)/staticCalc.o: $(FSTATIC)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(BUILD)/calc_static.o: $(FSTATIC)
-	@$(CC) $(CFLAGS) -c $(FSTATIC) -o $(BUILD)/calc_static.o
+$(BUILD)/dynamicCalc.o: $(FDYN)
+	@$(CC) $(CFLAGS) -fPIC -c $< -o $@
 
-$(STATIC)/libStaticCal.a: $(BUILD)/calc_static.o
-	@ar rcs $(STATIC)/libStaticCal.a $(BUILD)/calc_static.o
+# --- Librairie statique ---
+$(STATIC)/libStaticCal.a: $(BUILD)/staticCalc.o
+	@ar rcs $@ $<
+	@echo "✅ lib statique prête: $@"
 
-$(BIN)/prog_static: $(BUILD)/main_static.o $(STATIC)/libStaticCal.a
-	@$(CC) $(BUILD)/main_static.o -L$(STATIC) -lStaticCal -o $(BIN)/prog_static
-	@echo "✅ Compilation statique terminée."
+# --- Librairie dynamique ---
+$(DYNAMIC)/libDynamicCal.so: $(BUILD)/dynamicCalc.o
+	@$(CC) -shared -o $@ $<
+	@echo "✅ lib dynamique prête: $@"
 
-run-static: $(BIN)/prog_static
-	@./$(BIN)/prog_static
+# --- Binaire unique liant les deux libs ---
+$(BIN)/calc: $(BUILD)/main.o $(STATIC)/libStaticCal.a $(DYNAMIC)/libDynamicCal.so
+	@$(CC) $(BUILD)/main.o \
+		-L$(STATIC) -lStaticCal \
+		-L$(DYNAMIC) -lDynamicCal \
+		$(RPATH) $(LDFLAGS) -o $@
+	@echo "🎯 Binaire prêt: $@"
 
-############################################
-#             B - COMPILATION LIB DYNAMIQUE
-############################################
+# --- Exécution ---
+run: $(BIN)/calc
+	@./$<
 
-# ajouter le flag pour activer le code dynamique
-dynamic: CFLAGS += -DUSE_DYNAMIC
-dynamic: $(BIN)/prog_dynamic
-
-$(BUILD)/main_dynamic.o: $(MAIN)
-	@$(CC) $(CFLAGS) -c $(MAIN) -o $(BUILD)/main_dynamic.o
-
-$(BUILD)/calc_dynamic.o: $(FDYNAMIC)
-	@$(CC) $(CFLAGS) -fPIC -c $(FDYNAMIC) -o $(BUILD)/calc_dynamic.o
-
-$(DYNAMIC)/libDynamicCal.so: $(BUILD)/calc_dynamic.o
-	@$(CC) -shared -o $(DYNAMIC)/libDynamicCal.so $(BUILD)/calc_dynamic.o
-
-$(BIN)/prog_dynamic: $(BUILD)/main_dynamic.o $(DYNAMIC)/libDynamicCal.so
-	@$(CC) $(BUILD)/main_dynamic.o -L$(DYNAMIC) -lDynamicCal -o $(BIN)/prog_dynamic
-	@echo "✅ Compilation dynamique terminée."
-
-run-dynamic: $(BIN)/prog_dynamic
-	@LD_LIBRARY_PATH=$(DYNAMIC) ./$(BIN)/prog_dynamic
-
-############################################
-#                  CLEAN
-############################################
-
+# --- Nettoyage ---
 clean:
 	@rm -f $(BUILD)/*.o
 	@rm -f $(STATIC)/*.a
@@ -78,4 +62,4 @@ clean:
 	@rm -f $(BIN)/*
 	@echo "✔ Nettoyage terminé."
 
-.PHONY: static dynamic run-static run-dynamic clean
+.PHONY: all run clean

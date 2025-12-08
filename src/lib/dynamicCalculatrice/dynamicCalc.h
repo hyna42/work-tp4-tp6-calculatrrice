@@ -3,7 +3,7 @@
 
 int dynamicAddition(int a, int b);
 int dynamicSoustraction(int a, int b);
-int dynamicMultiplication(int a, int b);
-float dynamicDivision(int a, int b);
+// int dynamicMultiplication(int a, int b);
+// float dynamicDivision(int a, int b);
 
 #endif
