@@ -39,7 +39,7 @@ int main(void) {
     if (scanf("%d", &opType) != 1) { puts("Entree invalide"); return 1; }
 
     printf("Choisir deux entiers (format exact avec virgule, ex: 5,3): ");
-    // espace(s) optionnels autour de la virgule, mais virgule OBLIGATOIRE
+
     if (scanf(" %d , %d", &a, &b) != 2) {
         puts("Entree invalide: utilisez le format 5,3");
         return 1;
